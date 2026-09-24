@@ -24,17 +24,19 @@ def checkmate(board_str):
 
     kr, kc = king_pos
 
-    def is_threat_in_direction(dr, dc, valid_pieces):
+    valid_pieces_all = {'P', 'B', 'R', 'Q', 'K'}
+
+    def is_threat_in_direction(dr, dc, threat_pieces):
         r, c = kr + dr, kc + dc
         while 0 <= r < rows and 0 <= c < rows:
             piece = board[r][c]
-            if piece != '.':
-                return piece in valid_pieces
+            if piece in valid_pieces_all:
+                return piece in threat_pieces
             r += dr
             c += dc
         return False
 
-    pawn_threats = [(kr - 1, kc - 1), (kr - 1, kc + 1)]
+    pawn_threats = [(kr + 1, kc - 1), (kr + 1, kc + 1)]
     for pr, pc in pawn_threats:
         if 0 <= pr < rows and 0 <= pc < rows:
             if board[pr][pc] == 'P':
